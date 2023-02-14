@@ -1,0 +1,55 @@
+.container{
+  width: 100vw;
+  height: 100vh;   
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px 1fr;
+
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: black;
+}
+
+.header{
+  background-color: white;
+  grid-row: span 1;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-sizing: border-box;
+}
+
+h1 {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.popup {
+  z-index: auto;
+  width: 30vw;
+  height: 30vh;
+  position:absolute;
+  top:33%;
+  left:33%;
+  background-color: white;
+  border: 5px solid Black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.content {
+  background-color: white;
+  grid-row: span 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}

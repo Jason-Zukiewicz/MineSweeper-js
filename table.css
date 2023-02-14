@@ -1,0 +1,35 @@
+table{
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+tr{
+}
+
+td{
+  text-align: center;
+  border: 1px solid black;
+  width: 4vw;
+  height: 4vh;
+}
+
+.bomb{
+  background-color: red;
+}
+
+.hidden{
+  background-color: #A9A9A9;
+      /* Hide the text. */
+      text-indent: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+}
+
+.flag{
+  background-color: yellow;
+      /* Hide the text. */
+      text-indent: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+}
