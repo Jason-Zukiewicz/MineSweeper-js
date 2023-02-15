@@ -1,0 +1,21 @@
+{
+  "todo": [
+    {
+      "assignedTo": {
+        "name": "kettic"
+      },
+      "creation_time": "2023-02-15T20:30:39.277Z",
+      "description": {
+        "content": "When The first click is on a bomb, The board needs to be regenerated. This also includes setting all counters to 0;",
+        "mime": "text/markdown"
+      },
+      "id": "1",
+      "references": [],
+      "title": "Fix First Click Restart",
+      "type": "bug"
+    }
+  ],
+  "in-progress": [],
+  "testing": [],
+  "done": []
+}
