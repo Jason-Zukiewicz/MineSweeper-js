@@ -40,21 +40,25 @@ function leftClick(id){
       console.log("cell was hidden");
       cell.setAttribute('class', 'shown');
       let value = parseInt(cell.textContent);
+      console.log("Cell value: " + value);
       if(value == -1){
-        if (shownCount == 0){ // this is the first click
+        if (shownCount == 0){ // if first click in game is bomb, reset
           console.log("first click"); 
           clearContent();
           startGame();
-          // todo: remove first board
         }
         else
           endGame(false);
       }
       else{
-        updateScore(value);
         shownCount++;
+        updateScore(value);
         if(shownCount == bombCount)
           endGame(true);
+        else if(value == 0){
+          let split = id.split('-');
+          showZero(split[0],split[1]);
+        }
       }
       break;
     default:
@@ -134,8 +138,7 @@ function createBoard(ROWS, COLS, diff=20) {
   // TODO: Fill in board
   for(let r = 0; r < ROWS; r++) {
     for(let c = 0; c < COLS; c++) {
-      let randomNum = Math.random() * (100 - 0) + 0;
-      if(randomNum < diff ) {
+      if(diff > (Math.random() * (100 - 0) + 0)) {
         board[r][c] = -1;
         bombCount++;
         // Calculate neighbors
@@ -145,9 +148,9 @@ function createBoard(ROWS, COLS, diff=20) {
             for(let cOff = -1; cOff < 2; cOff++){
               let cCell = c + cOff;
               if(cCell >= 0 && cCell < COLS){
-                let value = board[rCell][cCell];
-                if(value != -1)
+                if(board[rCell][cCell] != -1)
                   board[rCell][cCell]++; 
+                  shownCount++;
                 
               }
             }
@@ -157,6 +160,28 @@ function createBoard(ROWS, COLS, diff=20) {
     }
   }
   return board;
+}
+
+function showZero(row, col){
+  console.log("showZero: " + row + ", " + col); 
+  for(let rOff = -1; rOff < 2; rOff++){
+    let rCell = parseInt(row) + rOff;
+    if(rCell >= 0 && rCell < ROWS){
+      for(let cOff = -1; cOff < 2; cOff++){
+        let cCell = parseInt(col) + cOff;
+        if(cCell >= 0 && cCell < COLS){
+          let cell = document.getElementById(`${rCell}-${cCell}`);
+          let attr = cell.getAttribute('class');
+          cell.setAttribute('class','shown');
+          if(board[rCell][cCell] == 0)
+            if(attr == 'hidden')
+              showZero(rCell,cCell);
+          
+        }
+      }
+    }
+
+  }
 }
 
 function showBoard(){
@@ -190,7 +215,7 @@ function endGame(win){
 }
 
 function startGame(){
-  createBoard(10,10,20);
+  createBoard(10,10,20);  
   createTable();
   updateBombs();
 }
