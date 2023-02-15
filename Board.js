@@ -2,6 +2,7 @@ let bombCount = 0;
 let flagCount = 0;
 let score = 0;
 let shownCount = 0;
+let totalCells = 0;
 
 let board;
 let ROWS;
@@ -37,23 +38,21 @@ function leftClick(id){
     case 'flag':
       return;
     case 'hidden':
-      console.log("cell was hidden");
       cell.setAttribute('class', 'shown');
       let value = parseInt(cell.textContent);
-      console.log("Cell value: " + value);
       if(value == -1){
         if (shownCount == 0){ // if first click in game is bomb, reset
           console.log("first click"); 
           clearContent();
           startGame();
-        }
+        }	
         else
           endGame(false);
       }
       else{
         shownCount++;
         updateScore(value);
-        if(shownCount == bombCount)
+        if(shownCount == totalCells - bombCount)
           endGame(true);
         else if(value == 0){
           let split = id.split('-');
@@ -149,9 +148,7 @@ function createBoard(ROWS, COLS, diff=20) {
               let cCell = c + cOff;
               if(cCell >= 0 && cCell < COLS){
                 if(board[rCell][cCell] != -1)
-                  board[rCell][cCell]++; 
-                  shownCount++;
-                
+                  board[rCell][cCell]++;                 
               }
             }
           }
@@ -159,11 +156,11 @@ function createBoard(ROWS, COLS, diff=20) {
       }
     }
   }
+  totalCells = ROWS * COLS;
   return board;
 }
 
 function showZero(row, col){
-  console.log("showZero: " + row + ", " + col); 
   for(let rOff = -1; rOff < 2; rOff++){
     let rCell = parseInt(row) + rOff;
     if(rCell >= 0 && rCell < ROWS){
@@ -172,11 +169,12 @@ function showZero(row, col){
         if(cCell >= 0 && cCell < COLS){
           let cell = document.getElementById(`${rCell}-${cCell}`);
           let attr = cell.getAttribute('class');
-          cell.setAttribute('class','shown');
-          if(board[rCell][cCell] == 0)
-            if(attr == 'hidden')
+          if(attr == 'hidden'){
+            cell.setAttribute('class','shown');
+            shownCount++;
+            if(board[rCell][cCell] == 0)
               showZero(rCell,cCell);
-          
+          }
         }
       }
     }
@@ -202,9 +200,9 @@ function showScoreBoard(win){
   victory.textContent = win? "You Win!" : "You Lose!";
   popup.appendChild(victory);
 
-  let score = document.createElement('h1');
-  score.textContent = "Score: " + score;
-  popup.appendChild(score);
+  let scoreText = document.createElement('h1');
+  scoreText.textContent = "Score: " + score;
+  popup.appendChild(scoreText);
 
   document.body.appendChild(popup);
 }
@@ -215,7 +213,7 @@ function endGame(win){
 }
 
 function startGame(){
-  createBoard(10,10,20);  
+  createBoard(5,5,20);  
   createTable();
   updateBombs();
 }

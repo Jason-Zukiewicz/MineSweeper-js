@@ -1,2 +1,1 @@
-// know the flagCount == bombCount works
-// the shownCount is way off was 145 / 100 
+Minesweeper with Javascript, HTML, and CSS
